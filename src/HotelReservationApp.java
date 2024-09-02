@@ -108,6 +108,7 @@ public class HotelReservationApp {
         System.out.println("1: name client ");
         System.out.println("2: date check in ");
         System.out.println("3: date check out ");
+        System.out.println("4: edit all info ");
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice){
             case 1:
@@ -138,6 +139,42 @@ public class HotelReservationApp {
                 String checkOutDateString = scanner.nextLine();
                 try {
                     checkOutDate = LocalDate.parse(checkOutDateString, DATE_FORMATTER);
+                    if (checkOutDate.isBefore(LocalDate.now())) {
+                        System.out.println("The check-out date cannot be in the past. Please enter a future date.");
+                        System.exit(0);
+                    }
+                    reservations[reservationFind].checkOutDate = checkOutDate.toString();
+                    System.out.println("the date check-out is updated");
+                } catch (DateTimeParseException e) {
+                    System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                }
+                break;
+            case 4:
+                System.out.println("entre new name client :");
+                String newNameClient = scanner.nextLine();
+                System.out.println("entre new Check-in date : ");
+                String newCheckInDateString = scanner.nextLine();
+                System.out.println("entre new Check-out date : ");
+                String newCheckOutDateString = scanner.nextLine();
+                // Edit name client
+                reservations[reservationFind].clientName = newNameClient;
+                // Edit Check - in date
+                try {
+                    checkInDate = LocalDate.parse(newCheckInDateString, DATE_FORMATTER);
+                    if (checkInDate.isBefore(LocalDate.now())) {
+                        System.out.println("The check-in date cannot be in the past. Please enter a future date.");
+                        System.exit(0);
+                    }
+                    reservations[reservationFind].checkInDate = checkInDate.toString();
+                    System.out.println("the date check-in is updated");
+
+
+                } catch (DateTimeParseException e) {
+                    System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                }
+                // Edit Check - out date
+                try {
+                    checkOutDate = LocalDate.parse(newCheckOutDateString, DATE_FORMATTER);
                     if (checkOutDate.isBefore(LocalDate.now())) {
                         System.out.println("The check-out date cannot be in the past. Please enter a future date.");
                         System.exit(0);
