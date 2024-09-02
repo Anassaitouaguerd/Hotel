@@ -49,7 +49,7 @@ public class ReservationServices {
             if (room.available) {
                 reservations.add(new Reservation(clientName, room, checkInDate, checkOutDate));
                 reservationCount++;
-                System.out.println("com.Rooms.Reservation created: " + reservations.get(reservationCount - 1));
+                System.out.println("Reservation created: " + reservations.get(reservationCount - 1));
                 return;
             }
         }
@@ -107,14 +107,20 @@ public class ReservationServices {
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice){
             case 1:
-                System.out.println("entre the new name client :");
-                String newClientName = scanner.nextLine();
+                String newClientName = "";
+                while (newClientName.isEmpty()) {
+                    System.out.println("entre the new name client :");
+                    newClientName = scanner.nextLine();
+                }
                 reservations.get(reservationFind).clientName = newClientName;
                 System.out.println("the name is updated");
                 break;
             case 2:
-                System.out.println("New Check-in date (yyyy-MM-dd):");
-                String checkInDateString  = scanner.nextLine();
+                String checkInDateString = "";
+                while (checkInDateString.isEmpty()) {
+                    System.out.println("New Check-in date (yyyy-MM-dd):");
+                    checkInDateString = scanner.nextLine();
+                }
                 try {
                     checkInDate = LocalDate.parse(checkInDateString, DATE_FORMATTER);
                     if (checkInDate.isBefore(LocalDate.now())) {
@@ -130,8 +136,12 @@ public class ReservationServices {
                 }
                 break;
             case 3:
-                System.out.println("New Check-out date (yyyy-MM-dd):");
-                String checkOutDateString = scanner.nextLine();
+                String checkOutDateString = "";
+                while (checkOutDateString.isEmpty()) {
+
+                    System.out.println("New Check-out date (yyyy-MM-dd):");
+                    checkOutDateString = scanner.nextLine();
+                }
                 try {
                     checkOutDate = LocalDate.parse(checkOutDateString, DATE_FORMATTER);
                     if (checkOutDate.isBefore(LocalDate.now())) {
@@ -145,39 +155,63 @@ public class ReservationServices {
                 }
                 break;
             case 4:
-                System.out.println("entre new name client :");
-                String newNameClient = scanner.nextLine();
-                System.out.println("entre new Check-in date : ");
-                String newCheckInDateString = scanner.nextLine();
-                System.out.println("entre new Check-out date : ");
-                String newCheckOutDateString = scanner.nextLine();
+                String newNameClient = "";
+                String newCheckInDateString = "";
+                String newCheckOutDateString = "";
+                LocalDate maxCheckInDate = LocalDate.of(2025, 9, 15);
+                LocalDate maxCheckOutDate = LocalDate.of(2025, 9, 15);
+                while (newNameClient.isEmpty()) {
+                    System.out.println("entre new name client :");
+                    newNameClient = scanner.nextLine();
+                }
+                while(newCheckInDateString.isEmpty() || checkInDate == null) {
+                    System.out.println("entre new Check-in date : ");
+                    newCheckInDateString = scanner.nextLine();
+                    // Edit Check - in date
+                    try {
+                        checkInDate = LocalDate.parse(newCheckInDateString, DATE_FORMATTER);
+                        if (checkInDate.isBefore(LocalDate.now())) {
+                            System.out.println("The check-in date cannot be in the past. Please enter a future date.");
+                            checkInDate = null;
+                        }
+                        if (checkInDate.isAfter(maxCheckInDate)) {
+                            System.out.println("The check-in date cannot be after " + maxCheckInDate + ". Please enter an earlier date.");
+                            checkInDate = null;
+                        }
+                        reservations.get(reservationFind).checkInDate = checkInDate.toString();
+                        System.out.println("the date check-in is updated");
+
+
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                    }
+                }
+                while(newCheckOutDateString.isEmpty() || checkOutDate == null) {
+                    System.out.println("entre new Check-out date : ");
+                    newCheckOutDateString = scanner.nextLine();
+                    // Edit Check - out date
+                    try {
+                        checkOutDate = LocalDate.parse(newCheckOutDateString, DATE_FORMATTER);
+                        if (checkOutDate.isBefore(LocalDate.now())) {
+                            System.out.println("The check-out date cannot be in the past. Please enter a future date.");
+                            checkOutDate = null ;
+                        }
+                        else if(checkOutDate.isBefore(checkInDate)){
+                            System.out.println("The check-out date cannot be before the check-in date. Please enter a valid date.");
+                            checkOutDate = null;
+                        }
+                        else if (checkOutDate.isAfter(maxCheckOutDate)) {
+                            System.out.println("The check-out date cannot be after " + maxCheckOutDate + ". Please enter an earlier date.");
+                            checkOutDate = null;
+                        }
+                        reservations.get(reservationFind).checkOutDate = checkOutDate.toString();
+                        System.out.println("the date check-out is updated");
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                    }
+                }
                 // Edit name client
                 reservations.get(reservationFind).clientName = newNameClient;
-                // Edit Check - in date
-                try {
-                    checkInDate = LocalDate.parse(newCheckInDateString, DATE_FORMATTER);
-                    if (checkInDate.isBefore(LocalDate.now())) {
-                        System.out.println("The check-in date cannot be in the past. Please enter a future date.");
-                        System.exit(0);
-                    }
-                    reservations.get(reservationFind).checkInDate = checkInDate.toString();
-                    System.out.println("the date check-in is updated");
-
-
-                } catch (DateTimeParseException e) {
-                    System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
-                }
-                // Edit Check - out date
-                try {
-                    if (checkOutDate.isBefore(LocalDate.now())) {
-                        System.out.println("The check-out date cannot be in the past. Please enter a future date.");
-                        System.exit(0);
-                    }
-                    reservations.get(reservationFind).checkOutDate = checkOutDate.toString();
-                    System.out.println("the date check-out is updated");
-                } catch (DateTimeParseException e) {
-                    System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
-                }
                 break;
         }
 
