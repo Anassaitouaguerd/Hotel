@@ -47,7 +47,7 @@ public class Main {
                                 System.out.println("The check-in date cannot be in the past. Please enter a future date.");
                                 checkInDate = null;
                             }
-                            if (checkInDate.isAfter(maxCheckInDate)) {
+                            if (checkInDate != null && checkInDate.isAfter(maxCheckInDate)) {
                                 System.out.println("The check-in date cannot be after " + maxCheckInDate + ". Please enter an earlier date.");
                                 checkInDate = null;
                             }
@@ -70,7 +70,7 @@ public class Main {
                                 System.out.println("The check-out date cannot be before the check-in date. Please enter a valid date.");
                                 checkOutDate = null;
                             }
-                            else if (checkOutDate.isAfter(maxCheckOutDate)) {
+                            else if (checkOutDate != null && checkOutDate.isAfter(maxCheckOutDate)) {
                                 System.out.println("The check-out date cannot be after " + maxCheckOutDate + ". Please enter an earlier date.");
                                 checkOutDate = null;
                             }
