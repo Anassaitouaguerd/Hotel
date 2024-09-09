@@ -1,5 +1,5 @@
 import com.Services.ReservationServices;
-
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
         final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         ReservationServices hotel = new ReservationServices();
+        DatabaseConnection database = new DatabaseConnection();
         hotel.hotelReservationApp(10);
         String clientName = "";
 
@@ -20,6 +21,9 @@ public class Main {
             System.out.println("3. Display reservations");
             System.out.println("4. Edit reservations");
             System.out.println("5. Exit");
+            System.out.println("6. Connect and display info");
+            System.out.println("7. Create users table");
+            System.out.println("8. Insert new data");
             System.out.print("Choose an option: ");
             int choice;
             try {
@@ -35,7 +39,7 @@ public class Main {
                     LocalDate maxCheckOutDate = LocalDate.of(2025, 9, 15);
                     while(clientName.isEmpty()) {
                         System.out.print("Client name: ");
-                         clientName = scanner.nextLine();
+                        clientName = scanner.nextLine();
                     }
                     LocalDate checkInDate = null;
                     while (checkInDate == null) {
@@ -94,6 +98,21 @@ public class Main {
                     break;
                 case 4:
                     hotel.editReservations();
+                    break;
+                case 6:
+                    Connection connection = database.connectAndDisplayInfo();
+                    break;
+                case 7:
+                    connection = database.connectAndDisplayInfo();
+                    if (connection != null) {
+                        database.createUsersTable(connection);
+                    }
+                    break;
+                case 8:
+                    connection = database.connectAndDisplayInfo();
+                    if (connection != null) {
+                        database.insertNewData(connection);
+                    }
                     break;
                 case 5:
                     System.out.println("Goodbye!");
