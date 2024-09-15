@@ -42,12 +42,7 @@ public class ReservationRepository {
     }
 
     // Add a new reservation
-    public void addNewReservation(Reservation reservation){
-        boolean availability = RoomRepository.checkAvailability(reservation.getRoomNumber() , reservation.getCheckOutDate());
-        if (!availability){
-            System.out.println("Room is not available");
-            return;
-        }
+    public void addNewReservation(Reservation reservation) {
         String querySQL = "INSERT INTO reservations (client_name, check_in_date, check_out_date, room) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -110,13 +105,14 @@ public class ReservationRepository {
         }
 
     }
-    public static void updateCheckInDate(LocalDate checkInDate, int reservationId){
+    public static void updateCheckInDate(LocalDate checkInDate, int roomNumber){
+        int roomId = RoomRepository.getRoomId(roomNumber);
         String querySQL = "UPDATE reservations SET check_in_date = ? WHERE room = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(querySQL)) {
 
             statement.setDate(1, Date.valueOf(checkInDate));
-            statement.setInt(2, reservationId);
+            statement.setInt(2, roomId);
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -127,13 +123,14 @@ public class ReservationRepository {
             e.printStackTrace();
         }
     }
-    public static void updateCheckOutDate(LocalDate checkOutDate, int reservationId){
+    public static void updateCheckOutDate(LocalDate checkOutDate, int roomNumber){
+        int roomId = RoomRepository.getRoomId(roomNumber);
         String querySQL = "UPDATE reservations SET check_out_date = ? WHERE room = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(querySQL)) {
 
             statement.setDate(1, Date.valueOf(checkOutDate));
-            statement.setInt(2, reservationId);
+            statement.setInt(2, roomId);
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -144,14 +141,14 @@ public class ReservationRepository {
             e.printStackTrace();
         }
     }
-//    TODO: TO BE FOR TYPE OF ROOM
-    public static void updateRoomNumber(int roomNumber, int reservationId){
+    public static void updateRoomNumber(int newRoomNumber, int roomNumber){
+        int roomId = RoomRepository.getRoomId(roomNumber);
+        int newRoomNumberId = RoomRepository.getRoomId(newRoomNumber);
         String querySQL = "UPDATE reservations SET room = ? WHERE room = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(querySQL)) {
-
-            statement.setInt(1, roomNumber);
-            statement.setInt(2, reservationId);
+            statement.setInt(1, newRoomNumberId);
+            statement.setInt(2, roomId);
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -163,22 +160,54 @@ public class ReservationRepository {
         }
     }
     public static int getReservationIdByRoomNumber(int roomNumber){
+        int roomId = RoomRepository.getRoomId(roomNumber);
         String querySQL = "SELECT id FROM reservations WHERE room = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(querySQL)) {
-
-            statement.setInt(1, roomNumber);
+            statement.setInt(1, roomId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
+    public static LocalDate getCheckInDateByRoomNumber(int roomNumber) {
+        int roomId = RoomRepository.getRoomId(roomNumber);
+        String querySQL = "SELECT check_in_date FROM reservations WHERE room = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(querySQL)) {
+            statement.setInt(1, roomId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDate("check_in_date").toLocalDate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 //    TODO: CREATE METHODE FOR DELETE RESERVATION
+public static void deleteReservation(int reservationId) {
+    String querySQL = "DELETE FROM reservations WHERE id = ?";
+    try (Connection connection = DatabaseConnection.getConnection();
+         PreparedStatement statement = connection.prepareStatement(querySQL)) {
+
+        statement.setInt(1, reservationId);
+
+        int rowsDeleted = statement.executeUpdate();
+        if (rowsDeleted > 0) {
+            System.out.println("Reservation deleted successfully!");
+        } else {
+            System.out.println("No reservation found with the given ID.");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
 
 }

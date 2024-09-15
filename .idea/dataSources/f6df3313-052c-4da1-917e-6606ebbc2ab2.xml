@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>791</IntrospectionStateNumber>
+      <IntrospectionStateNumber>804</IntrospectionStateNumber>
       <ServerVersion>16.4</ServerVersion>
       <StartupTime>1725565648</StartupTime>
       <TimeZones>true ACDT
@@ -805,7 +805,7 @@ false Zulu
 14697||10|C|G
 14697||-9223372036854775808|U|G
 14697||10|U|G</Grants>
-      <IntrospectionStateNumber>791</IntrospectionStateNumber>
+      <IntrospectionStateNumber>804</IntrospectionStateNumber>
       <ObjectId>5</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4238,8 +4238,8 @@ false Zulu
     <schema id="265" parent="3" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>791</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-09-11.18:22:26</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>804</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-09-14.14:37:10</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4276,7 +4276,7 @@ false Zulu
     </table>
     <table id="270" parent="265" name="rooms">
       <ObjectId>16441</ObjectId>
-      <StateNumber>790</StateNumber>
+      <StateNumber>803</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -4376,7 +4376,13 @@ false Zulu
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <index id="284" parent="270" name="rooms_pkey">
+    <column id="284" parent="270" name="price">
+      <Position>5</Position>
+      <StateNumber>803</StateNumber>
+      <StoredType>double precision|0s</StoredType>
+      <TypeId>701</TypeId>
+    </column>
+    <index id="285" parent="270" name="rooms_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16446</ObjectId>
@@ -4385,14 +4391,14 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="285" parent="270" name="rooms_pkey">
+    <key id="286" parent="270" name="rooms_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16447</ObjectId>
       <Primary>1</Primary>
       <StateNumber>779</StateNumber>
       <UnderlyingIndexId>16446</UnderlyingIndexId>
     </key>
-    <column id="286" parent="271" name="id">
+    <column id="287" parent="271" name="id">
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -4401,28 +4407,28 @@ false Zulu
       <SequenceId>16399</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="287" parent="271" name="username">
+    <column id="288" parent="271" name="username">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>744</StateNumber>
       <StoredType>varchar(50)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="288" parent="271" name="email">
+    <column id="289" parent="271" name="email">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>744</StateNumber>
       <StoredType>varchar(50)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="289" parent="271" name="password">
+    <column id="290" parent="271" name="password">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>744</StateNumber>
       <StoredType>varchar(50)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <index id="290" parent="271" name="users_pkey">
+    <index id="291" parent="271" name="users_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16404</ObjectId>
@@ -4431,7 +4437,7 @@ false Zulu
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="291" parent="271" name="users_pkey">
+    <key id="292" parent="271" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16405</ObjectId>
       <Primary>1</Primary>

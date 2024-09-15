@@ -23,8 +23,8 @@ public class Main {
             System.out.println("2. Cancel reservation");
             System.out.println("3. Display reservations");
             System.out.println("4. Edit reservations");
-            System.out.println("5. Exit");
-            System.out.println("6. display all rservation");
+            System.out.println("5. display statistics");
+            System.out.println("6. Exit");
             System.out.print("Choose an option: ");
             int choice;
             try {
@@ -87,22 +87,18 @@ public class Main {
                     hotel.createReservation(clientName, checkInDate, checkOutDate);
                     break;
                 case 2:
-                    try{
-                        Connection connection = DatabaseConnection.getConnection();
-                    }catch (SQLException e){
-                        e.printStackTrace();
-                    }
+                    hotel.deleteReservation();
                     break;
                 case 3:
                     hotel.displayReservations();
                     break;
-//                case 3:
-//                    hotel.displayReservations();
-//                    break;
                 case 4:
                     hotel.updateReservation();
                     break;
                 case 5:
+                    hotel.displayStatistics();
+                    break;
+                case 6:
                     System.out.println("Goodbye!");
                     scanner.close();
                     return;

@@ -5,11 +5,14 @@ public class Room {
     private int roomNumber;
     private boolean isAvailable;
     private String roomType;
+    private int price;
 
-    public Room(int id, int roomNumber, String roomType, boolean isAvailable) {
+    public Room(int id, int roomNumber, String roomType, boolean isAvailable , int price) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.isAvailable = isAvailable;
+        this.roomType = roomType;
+        this.price = price;
     }
 
     public int getId() {
@@ -40,5 +43,11 @@ public class Room {
     }
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
